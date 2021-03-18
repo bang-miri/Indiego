@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="project">
+
+<select id="selectPopularProject">
+select p.no , p.title , p.game_title , p.start_date , p.max_personnel , p.visibility , p.system , p.image , p.regdate , u.nick_name ,g.title ,l.count
+from project p , users u , genre g
+,(
+select  contents_no , count(*) count
+from likes
+where type = 'P'
+group by contents_no
+) l
+where p.user_no = u.user_no
+and p.genre_no = g.no
+and l.contents_no = p.no
+order by count desc
+</select>
+
+
+
+<select id="selectFirstProject">
+select p.no , p.title , p.game_title , p.start_date , p.max_personnel , p.visibility , p.system , p.image , p.regdate , u.nick_name ,g.title ,l.count
+from project p , users u , genre g
+,(
+select  contents_no , count(*) count
+from likes
+where type = 'P'
+group by contents_no
+) l
+where p.user_no = u.user_no
+and p.genre_no = g.no
+and l.contents_no = p.no
+order by regdate asc
+</select>
+
+<select id="selectList" 
+resultType="Project"
+parameterType="int">
+SELECT no,title,game_title gameTitle,start_date startDate,end_date endDate,max_personnel maxPersonnel
+FROM PROJECT 
+WHERE user_no=#{userNo} AND visibility='Y'
+ORDER BY no DESC
+</select>
+<select id="selectLaunchingList" 
+resultType="Project"
+parameterType="int">
+SELECT no,title,game_title gameTitle,start_date startDate,end_date endDate,max_personnel maxPersonnel,launching_v launchingV
+FROM PROJECT 
+WHERE user_no=#{userNo} AND visibility='Y' AND launching_v='Y'
+ORDER BY no DESC
+</select>
+
+<insert id="insert" parameterType="Project">
+	INSERT INTO project(no,title,start_date,max_personnel,visibility,user_no,launching_v,regdate)
+	VALUES(project_seq.nextval,#{title},#{startDate},#{maxPersonnel},#{visibility},#{userNo},#{launchingV},systimestamp)
+</insert>
+
+
+
+
+
+
+
+
+
+
+
+</mapper>  
+
+
+
+
+
+
+
+
+
+

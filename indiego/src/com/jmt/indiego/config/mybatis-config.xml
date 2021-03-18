@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<typeAliases>
+		<typeAlias alias="Free"
+		 type="com.jmt.indiego.vo.Free"/>
+		<typeAlias alias="Users"
+		 type="com.jmt.indiego.vo.Users"/>
+		<typeAlias alias="Likes"
+		 type="com.jmt.indiego.vo.Likes"/>
+		<typeAlias alias="Reply"
+		 type="com.jmt.indiego.vo.Reply"/>
+		 <typeAlias alias="Idea" type="com.jmt.indiego.vo.Idea"/>
+		 <typeAlias alias="PageVO" type="com.jmt.indiego.vo.PageVO"/>
+		 <typeAlias alias="Game" type="com.jmt.indiego.vo.Game"/>
+		 <typeAlias alias="Project" type="com.jmt.indiego.vo.Project"/>
+         
+         <typeAlias type="com.jmt.indiego.vo.Portfolio" alias="Portfolio"/> 
+         <typeAlias type="com.jmt.indiego.vo.Career" alias="career"/>
+          <typeAlias type="com.jmt.indiego.vo.Attack" alias="Attack"/>
+           <typeAlias type="com.jmt.indiego.vo.Follow" alias="Follow"/>
+            <typeAlias type="com.jmt.indiego.vo.Badge" alias="Badge"/> 
+            <typeAlias type="com.jmt.indiego.vo.UserBadge" alias="UserBadge"/>
+		 
+	</typeAliases>
+
+	<!-- DBMS와 연결하는 환경설정 -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="JNDI">
+				<property name="data_source"
+				 value="java:comp/env/jdbc/oracle"/>
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<!-- 맵퍼 경로 설정 -->
+	<mappers>
+		<mapper resource="com/jmt/indiego/mapper/free.xml"/>
+		<mapper resource="com/jmt/indiego/mapper/users.xml"/>
+		<mapper resource="com/jmt/indiego/mapper/likes.xml"/>
+		<mapper resource="com/jmt/indiego/mapper/reply.xml"/>
+		<mapper resource="com/jmt/indiego/mapper/project.xml"/>
+		<mapper resource="com/jmt/indiego/mapper/game.xml"/>
+		<mapper resource="com/jmt/indiego/mapper/idea.xml"/>
+		<mapper resource="com/jmt/indiego/mapper/portfolio.xml"/> 
+		<mapper resource="com/jmt/indiego/mapper/career.xml"/> 
+		<mapper resource="com/jmt/indiego/mapper/attack.xml"/> 
+		<mapper resource="com/jmt/indiego/mapper/follow.xml"/> 
+		<mapper resource="com/jmt/indiego/mapper/badge.xml"/> 
+		<mapper resource="com/jmt/indiego/mapper/userBadge.xml"/>
+		
+	</mappers>
+	
+</configuration>
+
+
+
+
+
+

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="game">
+
+
+<select id="selectPageList" resultType="Game"	parameterType="PageVO">
+SELECT  no , gameName , image , genre , price , regdate
+FROM(select no , gameName , image , genre , price , regdate , rownum r
+from(SELECT p.no, p.game_title gameName ,g.image , ge.title genre, g.price ,g.regdate regdate
+FROM project p , genre ge , game g
+WHERE ge.no = p.genre_no
+AND g.no = p.no
+order by 6 desc))
+WHERE r  between #{start} and #{end}
+</select>
+
+
+
+<select id="selectPopularPageList" resultType="Game"	parameterType="PageVO">
+SELECT  no , gameName , image , genre , price , regdate , evaluation
+FROM(select no , gameName , image , genre , price , regdate , evaluation ,rownum r
+from(SELECT p.no, p.game_title gameName ,g.image , ge.title genre, g.price ,g.regdate regdate , g.evaluation
+FROM project p , genre ge , game g
+WHERE ge.no = p.genre_no
+AND g.no = p.no
+order by 7 desc))
+WHERE r  between #{start} and #{end}
+</select>
+
+
+
+
+
+<select id="selectPopularGameList" resultType="Game">
+SELECT no , game_title gameName , image , price , title genre
+FROM(SELECT g.no , p.game_title ,g.image , g.price  , l.count , ge.title
+FROM(SELECT  contents_no  , count(*) count
+FROM ( SELECT type , contents_no 
+FROM likes
+WHERE type = 'G')
+GROUP By contents_no ) l , game g , project p , genre ge
+WHERE l.contents_no = g.no
+AND g.no = p.no
+AND ge.no = p.genre_no
+order by 5 desc)
+WHERE rownum BETWEEN 1 AND 5
+</select>
+
+
+<select id="selectBestGameList"  resultType="Game">
+SELECT no , gameName , image , genre , price , regdate , evaluation
+FROM(SELECT p.no, p.game_title gameName ,g.image , ge.title genre, g.price ,g.regdate , g.evaluation
+FROM project p , genre ge , game g
+WHERE ge.no = p.genre_no
+AND g.no = p.no
+order by 7 DESC)
+WHERE rownum BETWEEN 1 AND 5
+</select>
+
+<select id="selectTotal" resultType="int">
+SELECT count(*)
+FROM game
+</select>
+
+
+<select id="selectSearch" resultType="Game"	parameterType="String">
+select no , gameName , image , genre , price , regdate , evaluation 
+from(SELECT p.no, p.game_title gameName ,g.image , ge.title genre, g.price ,g.regdate regdate , g.evaluation
+FROM project p , genre ge , game g
+WHERE ge.no = p.genre_no
+AND g.no = p.no
+order by 6 desc)
+WHERE gameName like #{gameName}
+</select>
+
+
+</mapper>  
+
+
+
+
+
+
+
+
+
+

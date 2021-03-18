@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="userBadge">
+
+	<insert id="badgeInsertCreate" parameterType="Users">
+		INSERT INTO user_badge(no, badge_no, user_no, main_no, regdate)
+		VALUES(user_badge_seq.nextval, 1, 105, 33, systimestamp)
+		WHERE user_no = 104
+	</insert>
+
+	<insert id="insertBadge" parameterType="Users">
+		INSERT INTO user_badge(no, badge_no, user_no, main_no, regdate)
+		VALUES(user_badge_seq.nextval, 33, 105, 33, systimestamp)
+		WHERE user_no = 104
+	</insert>
+
+<select id="selectMainBadge" 
+resultType="int"
+parameterType="int">
+SELECT DISTINCT b.main_no
+FROM user_badge b,badge d
+WHERE b.badge_no=d.no AND b.user_no=#{userNo}
+</select>
+<update id="updateMainBadge" parameterType="UserBadge">
+update user_badge
+set main_no=#{mainNo}
+where user_no=#{userNo}
+</update>
+</mapper>  
+
+
+
+
+
+
+
+
+
+

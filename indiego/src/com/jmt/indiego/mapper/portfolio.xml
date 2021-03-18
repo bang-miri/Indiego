@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="portfolio">
+
+<select id="selectList" 
+resultType="Portfolio"
+parameterType="int">
+SELECT title,file_name,image,regdate
+FROM portfolio
+WHERE user_no = #{userNo}
+order by no DESC
+</select>
+
+<insert id="insert" parameterType="Portfolio">
+	INSERT INTO portfolio(no,user_no,title,file_name,image,regdate)
+	VALUES(portfolio_seq.nextval,#{userNo},#{title},
+	       #{fileName},#{image},systimestamp)
+</insert>
+
+</mapper>  
+
+
+
+
+
+
+
+
+
+

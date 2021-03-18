@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="users">
+
+<insert id="insert" parameterType="Users">
+		INSERT INTO users(user_no,
+		id,pwd, nick_name,email, profile_img , user_mode , regdate)
+		VALUES(users_seq.nextval, #{id}, #{pwd}, #{nickName},
+		#{email},
+		'img/profile/defaultImg.png', 'U', systimestamp)
+	</insert>
+
+<select id="selectCheckNickName" resultType="int"
+		parameterType="string">
+		SELECT COUNT(*)
+		FROM users
+		WHERE nick_name = #{nickName}
+	</select>
+
+<select id="selectCheckId" resultType="int"
+		parameterType="string">
+		SELECT COUNT(*)
+		FROM users
+		WHERE id = #{id}
+	</select>
+
+	<select id="selectLogin" resultType="Users"
+		parameterType="Users">
+		SELECT user_no userNo, id, pwd, nick_name nickName, email, phone_num phoneNum,
+		address1, address2, profile_img profileImg, user_mode userMode,
+		regdate, career_v careerV, portfolio_v portfolioV, address_v addressV,
+		phone_v phoneV
+		FROM users
+		WHERE id = #{id} AND pwd = #{pwd}
+	</select>
+	<select id="selectInder" parameterType="int" resultType="String" >
+		SELECT user_mode userMode
+		FROM users
+		WHERE user_no=#{userNo}
+	</select>
+	
+	
+
+	<select id="selectList" resultType="Users" parameterType="Users">
+		SELECT
+		user_no userNo, id, pwd, nick_name nickName, email, phone_num phoneNum,
+		address1, address2, profile_img profileImg, user_mode userMode,
+		regdate, career_v careerV, portfolio_v portfolioV, address_v addressV,
+		phone_v phoneV
+		FROM users
+	</select>
+
+<select id="selectNickName" 
+resultType="String"
+parameterType="int">
+SELECT nick_name nickName
+FROM users
+WHERE user_no=#{userNo}
+</select>
+
+<select id="selectAttackInder" 
+resultType="Users">
+SELECT u.nick_name nickName
+FROM users u,user_badge b
+WHERE u.user_no=B.user_no  AND b.badge_no=22
+</select>
+
+<select id="selectProfile" 
+resultType="String"
+parameterType="int">
+SELECT profile_img profileImg
+FROM users
+WHERE user_no=#{userNo}
+</select>
+
+<update id="updateProfile"
+parameterType="Users">
+UPDATE users
+SET profile_img = #{profileImg}
+WHERE user_no=#{userNo}
+</update>
+</mapper>  
+
+
+
+
+
+
+
+
+
+

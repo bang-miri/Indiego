@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reply">
+
+	<select id="selectList" resultType="Reply" parameterType="Reply">
+		SELECT no, title, contents, contents_no contentsNo, user_no userNo, visibility, seq_no seqNo, user_no2 userNo2, type, regdate, parents_no parentsNo
+		FROM reply
+	</select>
+
+
+	<select id="replyListTopten" resultType="reply">
+		SElect no , title , game_title gameTitle
+		From(SELECT r.no , r.title , r.contents , r.contents_no , r.user_no , r.seq_no
+		,r.regdate ,p.game_title , rownum r
+		FROM reply r , project p
+		WHERE r.contents_no = p.no
+		AND r.type = 'D'
+		order by 7 desc)
+		Where r between 1 and 10
+	</select>
+	
+	
+	
+	
+</mapper>  
+
+

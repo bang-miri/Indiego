@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="free">
+
+	<select id="selectList" resultType="Free" parameterType="Free">
+		SELECT f.no,f.title,f.contents,f.views,TO_CHAR(f.regdate,
+		'MM-DD''HH24:MI') regdateTo,f.user_no userNo, u.nick_name nickName,l.likesNo,r.replyNo
+		FROM free f, users u,
+		(SELECT contents_no likesNo,COUNT(*) count
+		FROM likes
+		WHERE type = 'F'
+		GROUP BY contents_no) l,
+		(SELECT contents_no replyNo,COUNT(*) count
+		FROM reply
+		WHERE type = 'F'
+		GROUP BY contents_no) r
+		WHERE f.user_no = u.user_no
+		AND l.likesNo(+) = f.no
+		AND R.replyNo(+) = f.no
+	</select>
+
+<select id="selectIndexFree" resultType="Free">
+	select no ,title , contents , nickname , replynum , likenum
+	from(select f.no ,f.title , f.contents , u.nick_name nickname, replynum , likenum
+	, rownum r
+	FROM(select contents_no , count(*) likeNum
+	FROM(SELECT type , contents_no
+	FROM likes
+	WHERE type = 'F')
+	GRoup by contents_no )l ,
+	(select contents_no , count(*) replyNum
+	from(select contents_no
+	from reply
+	where type = 'F')
+	group by contents_no)r,
+	free f , users u
+	where f.no = l.contents_no
+	AND f.no = r.contents_no
+	AND f.user_no = u.user_no
+	order by likenum Desc)
+	WHERE r between 1 and 10
+</select>
+
+
+
+</mapper>  
+
+
